@@ -6,21 +6,21 @@ import NotFound from '@/views/NotFoundPage.vue';
 const routes = [
   {
     path: '/',
-    redirect: 'dashboard',
+    redirect: 'home',
     component: DashboardLayout,
     children: [
       {
-        path: '/dashboard',
-        name: 'dashboard',
+        path: '/home',
+        name: 'home',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Dashboard.vue')
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Home.vue')
       },
       {
-        path: '/icons',
-        name: 'icons',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Icons.vue')
+        path: '/stores',
+        name: 'stores',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Stores.vue')
       },
       {
         path: '/profile',
@@ -28,9 +28,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/UserProfile.vue')
       },
       {
-        path: '/tables',
-        name: 'tables',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/RegularTables.vue')
+        path: '/mystores',
+        name: 'mystores',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/MyStores.vue')
+      },
+      {
+        path: '/order',
+        name: 'order',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Order.vue')
       }
     ]
   },
@@ -51,7 +56,7 @@ const routes = [
       },
       { path: '*', component: NotFound }
     ]
-  },
+  }
 ];
 
 export default routes;

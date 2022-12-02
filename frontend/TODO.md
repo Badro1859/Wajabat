@@ -12,3 +12,12 @@
 
 ## 3 - order :
     - checkout page
+
+
+
+
+## ------------------- PAGES -------------------
+
+### 1 - HOME  ---> finished
+### 2 - STORES ---> finished
+### 3 - 

@@ -5,7 +5,7 @@
         <h3 class="mb-0">Edit profile </h3>
       </b-col>
       <b-col cols="4" class="text-right">
-        <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+        <a href="#!" class="btn btn-sm btn-primary">Save</a>
       </b-col>
     </b-row>
 
@@ -114,6 +114,7 @@
     </b-form>
   </card>
 </template>
+
 <script>
 export default {
   data() {
@@ -139,4 +140,5 @@ export default {
   }
 };
 </script>
+
 <style></style>

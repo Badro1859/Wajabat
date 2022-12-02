@@ -1,10 +1,10 @@
 <template>
   <div class="header" :class="{[`bg-${type}`]: type}">
-     <b-container fluid>
+    <b-container fluid>
       <div class="header-body">
         <slot></slot>
       </div>
-     </b-container>
+    </b-container>
   </div>
 </template>
 <script>
