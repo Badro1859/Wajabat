@@ -14,32 +14,93 @@
     <b-container class="mt--8 pb-5">
       <!-- Table -->
       <b-row class="justify-content-center">
-        <b-col lg="6" md="8" >
+        <b-col lg="8" md="10" >
           <b-card no-body class="bg-secondary border-0">
             <b-card-body class="px-lg-5 pt-lg-5">
               <h1 class="text-center text-muted mb-5">Sign Up</h1>
 
               <validation-observer v-slot="{handleSubmit}" ref="formValidator">
                 <b-form role="form" @submit.prevent="handleSubmit(onSubmit)">
-                  <base-input alternative
+                  
+                  <b-row>
+                    <b-col lg="6">
+                      <base-input alternative
                               class="mb-3"
                               prepend-icon="ni ni-hat-3"
-                              placeholder="Name"
+                              placeholder="Username"
                               name="Name"
                               :rules="{required: true}"
-                              v-model="model.name">
-                  </base-input>
-
-                  <base-input alternative
+                              v-model="model.username">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
                               class="mb-3"
                               prepend-icon="ni ni-email-83"
                               placeholder="Email"
                               name="Email"
                               :rules="{required: true, email: true}"
                               v-model="model.email">
-                  </base-input>
-
-                  <base-input alternative
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="First name"
+                              name="first_name"
+                              v-model="model.first_name">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="Last name"
+                              name="last_name"
+                              v-model="model.last_name">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="Address"
+                              name="address"
+                              v-model="model.address">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="City"
+                              name="city"
+                              v-model="model.city">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="Postal Code"
+                              name="postal_code"
+                              v-model="model.postal_code">
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-hat-3"
+                              placeholder="About"
+                              name="about"
+                              v-model="model.postal_code">
+                      </base-input>
+                    </b-col>
+                  </b-row>
+                  <b-row>
+                    <b-col lg="6">
+                      <base-input alternative
                               class="mb-3"
                               prepend-icon="ni ni-lock-circle-open"
                               placeholder="password"
@@ -47,18 +108,34 @@
                               name="Password"
                               :rules="{required: true, min: 6}"
                               v-model="model.password">
-                  </base-input>
-                  <div class="text-muted font-italic"><small>password strength: <span
-                    class="text-success font-weight-700">strong</span></small></div>
-                  <b-row class=" mt-4">
-                    <b-col cols="12">
-                      <base-input :rules="{ required: { allowFalse: false } }" name=Privacy Policy>
-                        <b-form-checkbox v-model="model.agree">
-                          <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                        </b-form-checkbox>
+                      </base-input>
+                    </b-col>
+                    <b-col lg="6">
+                      <base-input alternative
+                              class="mb-3"
+                              prepend-icon="ni ni-lock-circle-open"
+                              placeholder="password again"
+                              type="password"
+                              name="Password"
+                              :rules="{required: true, min: 6}"
+                              v-model="password2">
                       </base-input>
                     </b-col>
                   </b-row>
+                  <div class="text-muted font-italic mt--3">
+                    <small class="text-danger font-weight-700 passError"></small>
+                  </div>
+                  
+                  <!-- <b-row class=" pl-2 mt-4">
+                    <b-col cols="12">
+                      <base-input :rules="{ required: { allowFalse: false } }" name=Privacy Policy>
+                        <b-form-checkbox>
+                          <span class="text-muted ml--3">I agree with the <a href="#!">Privacy Policy</a></span>
+                        </b-form-checkbox>
+                      </base-input>
+                    </b-col>
+                  </b-row> -->
+
                   <div class="text-center">
                     <b-button type="submit" variant="primary" class="mt-0">Create account</b-button>
                   </div>
@@ -86,22 +163,61 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 
   export default {
     name: 'register',
     data() {
       return {
         model: {
-          name: '',
+          username: '',
           email: '',
           password: '',
-          agree: false
-        }
+          first_name: '',
+          last_name: '',
+          address: '',
+          city: '',
+          postal_code: '',
+          about: ''
+        },
+        password2: '',
+        wrongPass: '',
+        errors: [],
       }
     },
     methods: {
-      onSubmit() {
+      validPassword() {
+        if (this.password2 != this.model.password) {
+          document.getElementById('passError').textContent = 'the two password not equal';
+          return false;
+        }
+        return true;
+      },  
+      async onSubmit() {
         // this will be called only after form is valid. You can do an api call here to register users
+        if (this.validPassword) {
+
+          //// clear old login informations
+          axios.defaults.headers.common["Authorization"] = "";
+          localStorage.removeItem("token")
+
+          console.log('axios started')
+          // send request to backend 
+          await axios 
+            .post('http://127.0.0.1:8000/food/users/', this.model)
+            .then(response => {
+              console.log('register success')
+
+              this.$router.push('/login');
+            })
+            .catch(errors => {
+              if (errors.response) {
+                console.log(errors.response.data)
+              } else {
+                console.log('wrong !!')
+              }
+            })
+        }
       }
     }
 

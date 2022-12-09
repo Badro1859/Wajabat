@@ -69,26 +69,30 @@
             <span>Support</span>
           </b-dropdown-item>
           <div class="dropdown-divider"></div>
-          <b-dropdown-item href="#!">
+          <b-dropdown-item @click="logout">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
           </b-dropdown-item>
         </template>
       </base-dropdown>
+      
     </b-navbar-nav>
   </base-nav>
 </template>
 
 
 <script>
+import axios from 'axios';
+
 import { CollapseTransition } from 'vue2-transitions';
-import { BaseNav, Modal } from '@/components';
+import { BaseNav, Modal, BaseDropdown } from '@/components';
 
 export default {
   components: {
     CollapseTransition,
     BaseNav,
-    Modal
+    Modal,
+    BaseDropdown
   },
   props: {
     type: {
@@ -120,6 +124,17 @@ export default {
     },
     closeDropDown() {
       this.activeNotifications = false;
+    },
+    logout() {
+
+      axios.defaults.headers.common["Authorization"] = ""
+
+      localStorage.removeItem("token")
+      // localStorage.removeItem("username")
+      // localStorage.removeItem("userid")
+
+      this.$store.commit('removeToken')
+      this.$router.push('/')
     }
   }
 };

@@ -19,16 +19,16 @@
 
       <template v-slot:modal-header>
         <slot name="header"></slot>
-            <slot name="close-button">
-              <button type="button"
-                      class="close"
-                      v-if="showClose"
-                      @click="closeModal"
-                      data-dismiss="modal"
-                      aria-label="Close">
-                <span :aria-hidden="!show">×</span>
-              </button>
-            </slot>
+        <slot name="close-button">
+          <button type="button"
+                  class="close"
+                  v-if="showClose"
+                  @click="closeModal"
+                  data-dismiss="modal"
+                  aria-label="Close">
+            <span :aria-hidden="!show">×</span>
+          </button>
+        </slot>
       </template>
 
       <slot />

@@ -31,7 +31,7 @@
        </div>
 
         <b-navbar-nav  class="align-items-lg-center ml-lg-auto">
-          <b-nav-item to="/dashboard">
+          <b-nav-item to="/home">
               <i class="ni ni-planet"></i>
               <span class="nav-link-inner--text">Home</span>
           </b-nav-item>

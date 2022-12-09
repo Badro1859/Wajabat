@@ -5,7 +5,7 @@
         <h3 class="mb-0">Edit profile </h3>
       </b-col>
       <b-col cols="4" class="text-right">
-        <a href="#!" class="btn btn-sm btn-primary">Save</a>
+        <base-button @click="updateProfile" type="primary">Update</base-button>
       </b-col>
     </b-row>
 
@@ -39,7 +39,7 @@
               type="text"
               label="First Name"
               placeholder="First Name"
-              v-model="user.firstName"
+              v-model="user.firs_name"
             >
             </base-input>
           </b-col>
@@ -48,7 +48,7 @@
               type="text"
               label="Last Name"
               placeholder="Last Name"
-              v-model="user.lastName"
+              v-model="user.last_name"
             >
             </base-input>
           </b-col>
@@ -83,18 +83,9 @@
           </b-col>
           <b-col lg="4">
             <base-input
-              type="text"
-              label="Country"
-              placeholder="Country"
-              v-model="user.country"
-            >
-            </base-input>
-          </b-col>
-          <b-col lg="4">
-            <base-input
               label="Postal Code"
               placeholder="ZIP Code"
-              v-model="user.postalCode"
+              v-model="user.postal_code"
             >
             </base-input>
           </b-col>
@@ -107,7 +98,7 @@
       <div class="pl-lg-4">
         <b-form-group label="About Me" label-class="form-control-label" class="mb-0" label-for="about-form-textaria">
          <!--  <label class="form-control-label">About Me</label> -->
-          <b-form-textarea rows="4" value="A beautiful premium dashboard for BootstrapVue." id="about-form-textaria" placeholder="A few words about you ..."></b-form-textarea>
+          <b-form-textarea rows="4" v-model="user.about" id="about-form-textaria" placeholder="A few words about you ..."></b-form-textarea>
         </b-form-group>
       </div>
 
@@ -116,28 +107,50 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  props: {
+    user: Object,
+  },
   data() {
     return {
-      user: {
-        company: 'Creative Code Inc.',
-        username: 'michael23',
-        email: '',
-        firstName: 'Mike',
-        lastName: 'Andrew',
-        address: 'Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09',
-        city: 'New York',
-        country: 'USA',
-        postalCode: '',
-        aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
-      }
+      // user: {
+      //   username: '',
+      //   email: '',
+      //   first_name: '',
+      //   last_name: '',
+      //   address: '',
+      //   city: '',
+      //   postalCode: '',
+      //   aboutMe: ''
+      // }
     };
   },
+  // mounted() {
+  //   this.initalisation()
+  // },
+
   methods: {
+    // async initalisation() {
+      
+    //   const url = 'http://127.0.0.1:8000/food/users/'
+    //   await axios
+    //     .get(url)
+    //     .then(response => {
+    //       this.user = response.data[0];
+    //     })
+    //     .catch(errors => {
+    //       console.log(errors)
+    //     })
+    // },
+
     updateProfile() {
+      this.editing = false;
+
       alert('Your data: ' + JSON.stringify(this.user));
     }
-  }
+  },
 };
 </script>
 

@@ -31,13 +31,12 @@
       <!-- End Card stats -->
     </base-header>
 
-    
+    <!--Products-->
     <b-container fluid class="mt--7">
-      <!--Product-->
       <b-row>
-        <b-col xl="3" md="6" class="mb-5 mb-xl-0"> 
+        <b-col v-for="item in products" :key="item.id"  xl="3" md="6" class="mb-5 mb-xl-0"> 
           <b-card
-            title="Tachos Chawarma"
+            :title="item.name"
             img-src="img/theme/img-1-1000x600.jpg"
             img-alt="Image"
             img-top
@@ -46,106 +45,54 @@
             class="mb-2"
           >
             <b-card-text>
-              <span>category:</span> fastfood $120
+
+              <div class="text-muted font-italic mt--3">
+                <span>category:</span> <span class="inline font-weight-700">{{item.category}}</span>
+              </div>
+              <h3 class="font-weight-700 text-right mt--4">${{item.price}}</h3>
             </b-card-text>
 
-            <b-button href="javascript:;" variant="primary">Add to card</b-button>
+            <b-card-footer class="pb-0 pt-2 mb-0 text-center">
+              <b-button href="javascript:;" variant="primary">Add to card</b-button>
+            </b-card-footer>
           </b-card>
         </b-col>
-
-        <b-col xl="3" md="6" class="mb-5 mb-xl-0"> 
-          <b-card
-            title="Tachos Chawarma"
-            img-src="img/theme/img-1-1000x600.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text>
-              <span>category:</span> fastfood $120
-            </b-card-text>
-
-            <b-button href="javascript:;" variant="primary">Add to card</b-button>
-          </b-card>
-        </b-col>
-
-        <b-col xl="3" md="6" class="mb-5 mb-xl-0"> 
-          <b-card
-            title="Tachos Chawarma"
-            img-src="img/theme/img-1-1000x600.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text>
-              <span>category:</span> fastfood $120
-            </b-card-text>
-
-            <b-button href="javascript:;" variant="primary">Add to card</b-button>
-          </b-card>
-        </b-col>
-
-        <b-col xl="3" md="6" class="mb-5 mb-xl-0"> 
-          <b-card
-            title="Tachos Chawarma"
-            img-src="img/theme/img-1-1000x600.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text>
-              <span>category:</span> fastfood $120
-            </b-card-text>
-
-            <b-button href="javascript:;" variant="primary">Add to card</b-button>
-          </b-card>
-        </b-col>
-
-        <b-col xl="3" md="6" class="mb-5 mb-xl-0"> 
-          <b-card
-            title="Tachos Chawarma"
-            img-src="img/theme/img-1-1000x600.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text>
-              <span>category:</span> fastfood $120
-            </b-card-text>
-
-            <b-button href="javascript:;" variant="primary">Add to card</b-button>
-          </b-card>
-        </b-col>
-
       </b-row>
-      <!-- End Product-->
-
     </b-container>
+    <!-- End Products-->
   </div>
 </template>
 
 <script>
-  // Components
-  import BaseProgress from '@/components/BaseProgress';
-  import StatsCard from '@/components/Cards/StatsCard';
-  import BaseHeader from '@/components/BaseHeader';
-
+  import axios from 'axios';
 
   export default {
     name: 'dashboard',
-    components: {
-      BaseProgress,
-      StatsCard,
-      BaseHeader,
+    data() {
+      return {
+        products: {}
+      }
     },
+    mounted() {
+      this.getAllProducts();
+    },
+    methods: {
+      async getAllProducts() {
+
+        const url = 'http://127.0.0.1:8000/food/products/';
+
+        await axios
+          .get(url)
+          .then(response => {
+            this.products = response.data;
+            console.log(this.products);
+          })
+          .catch(errors => {
+            console.log(errors);
+          })
+
+      }
+    }
   };
 </script>
 

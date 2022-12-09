@@ -19,35 +19,58 @@
               path: '/stores',
               icon: 'ni ni-planet text-blue'
             }"
-          >
+        >
         </sidebar-item>
 
-        <sidebar-item
-            :link="{
-              name: 'Profile',
-              path: '/profile',
-              icon: 'ni ni-planet text-blue'
-            }"
+        <template v-if="$store.state.isAuthenticated">
+          <sidebar-item
+              :link="{
+                name: 'Profile',
+                path: '/profile',
+                icon: 'ni ni-planet text-blue'
+              }"
           >
-        </sidebar-item>
+          </sidebar-item>
 
-        <sidebar-item
+          <sidebar-item
             :link="{
               name: 'My Stores',
               path: '/mystores',
               icon: 'ni ni-planet text-blue'
             }"
           >
-        </sidebar-item>
+          </sidebar-item>
 
-        <sidebar-item
+          <sidebar-item
             :link="{
               name: 'My Order',
               path: '/order',
               icon: 'ni ni-planet text-blue'
             }"
           >
-        </sidebar-item>
+          </sidebar-item>
+
+        </template>
+
+        <template v-else>
+          <sidebar-item
+            :link="{
+              name: 'Log In',
+              path: '/login',
+              icon: 'ni ni-planet text-blue'
+            }"
+          >
+          </sidebar-item>
+
+          <sidebar-item
+              :link="{
+                name: 'Sin UP',
+                path: '/register',
+                icon: 'ni ni-planet text-blue'
+              }"
+          >
+          </sidebar-item>
+        </template>
       </template>
 
       <template slot="links-after">

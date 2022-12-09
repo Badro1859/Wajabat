@@ -19,6 +19,7 @@ locale.use(lang);
 // vue-bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
+
 // asset imports
 import '@/assets/scss/argon.scss';
 import '@/assets/vendor/nucleo/css/nucleo.css';
@@ -32,6 +33,7 @@ Object.keys(rules).forEach(rule => {
     message: messages[rule] // assign message
   });
 });
+
 export default {
   install(Vue) {
     Vue.use(GlobalComponents);

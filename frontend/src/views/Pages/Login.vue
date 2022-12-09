@@ -23,24 +23,25 @@
                 <b-form role="form" @submit.prevent="handleSubmit(onSubmit)">
                   <base-input alternative
                               class="mb-3"
-                              name="Email"
-                              :rules="{required: true, email: true}"
+                              name="username"
+                              :rules="{required: true}"
                               prepend-icon="ni ni-email-83"
-                              placeholder="Email"
-                              v-model="model.email">
+                              placeholder="usrename"
+                              v-model="username">
                   </base-input>
 
                   <base-input alternative
                               class="mb-3"
-                              name="Password"
-                              :rules="{required: true, min: 6}"
+                              name="password"
+                              :rules="{required: true}"
                               prepend-icon="ni ni-lock-circle-open"
                               type="password"
                               placeholder="Password"
-                              v-model="model.password">
+                              v-model="password">
                   </base-input>
 
-                  <b-form-checkbox v-model="model.rememberMe">Remember me</b-form-checkbox>
+                  <b-form-checkbox v-model="rememberMe">Remember me</b-form-checkbox>
+                  
                   <div class="text-center">
                     <base-button type="primary" native-type="submit" class="my-4">Sign in</base-button>
                   </div>
@@ -77,19 +78,64 @@
   </div>
 </template>
 <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
-        model: {
-          email: '',
-          password: '',
-          rememberMe: false
-        }
+        username: '',
+        password: '',
+        rememberMe: false,
+        errors: []
       };
     },
     methods: {
-      onSubmit() {
+      async onSubmit() {
         // this will be called only after form is valid. You can do api call here to login
+        
+        const formData = {
+          username: this.username,
+          password: this.password
+        }
+
+        //// clear old login informations
+        axios.defaults.headers.common["Authorization"] = "";
+        localStorage.removeItem("token")
+
+        await axios 
+          .post('http://127.0.0.1:8000/food/auth/token/login/', formData)
+          .then(response => {
+            // console.log('response :', response.data)
+            // get token from response data
+            const token = response.data.auth_token 
+
+            // save token in axios headers for later requests
+            axios.defaults.headers.common["Authorization"] = "Token " + token 
+
+            // save token in store 
+            this.$store.commit('setToken', token, )
+
+            // save token in local storage for later use in other login
+            localStorage.setItem('token', token)
+
+            // // redirect to home page
+            const toPath = this.$route.query.to || '/home'
+            this.$router.push(toPath)
+
+            // console.log('token : ', token);
+            // console.log('path : ', toPath);
+          })
+          .catch(error => {
+            if (error.response) {
+              for(const property in error.response.data) {
+                  this.errors.push(`${property}: ${error.response.data[property]}`)
+              }
+            } else {
+              this.errors.push('Something went wrong. Please try again')
+              console.log(JSON.stringify(error))
+            }
+            console.log(this.errors);
+          })
       }
     }
   };
